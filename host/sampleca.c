@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2016, Renesas Electronics Corporation
+ * Copyright (c) 2015-2017, Renesas Electronics Corporation
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -114,6 +114,14 @@ int main(int argc, char *argv[])
 		if (stat(argv[3], &st) != 0) {
 			res = TEEC_ERROR_GENERIC;
 			(void)printf("File access error %s\n", argv[3]);
+		}
+	}
+	
+	/* Check the file size. */
+	if (res == (TEEC_Result)TEEC_SUCCESS) {
+		if ((st.st_size % 16U) != 0U || (st.st_size > 262144U)) {
+			res = TEEC_ERROR_GENERIC;
+			(void)printf("File size is not a multiple of 16 bytes. Or file size is larger than 262144 bytes %s\n", argv[3]);
 		}
 	}
 	

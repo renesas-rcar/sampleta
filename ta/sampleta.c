@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2016, Renesas Electronics Corporation
+ * Copyright (c) 2015-2017, Renesas Electronics Corporation
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -219,8 +219,6 @@ static TEE_Result ReadSecretKey(void)
 			if (res != (TEE_Result)TEE_SUCCESS) {
 				EMSG("Error TEE_PopulateTransientObject\n");
 			}
-			(void)TEE_Free(attrs[0].content.ref.buffer);
-			(void)TEE_Free(attrs);
 		}
 		TEE_CloseObject(object);
 	}

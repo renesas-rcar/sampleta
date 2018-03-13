@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017, Renesas Electronics Corporation
+ * Copyright (c) 2015-2018, Renesas Electronics Corporation
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -128,7 +128,7 @@ int main(int argc, char *argv[])
 	/* Allocates a buffer. */
 	if (res == (TEEC_Result)TEEC_SUCCESS) {
 		input_SharedMemory.size = st.st_size;
-		input_SharedMemory.flags = TEEC_MEMREF_PARTIAL_INPUT;
+		input_SharedMemory.flags = TEEC_MEM_INPUT;
 		res = TEEC_AllocateSharedMemory(&ctx, &input_SharedMemory);
 		if (res != (TEEC_Result)TEEC_SUCCESS) {
 			(void)printf("TEEC_AllocateSharedMemory error 0x%08x\n", res);

@@ -247,7 +247,7 @@ TEE_Result TA_InvokeCommandEntryPoint(void *sessionContext, uint32_t commandID,
 	uint8_t		*inbuf;
 	uint32_t	inbuf_size;
 	uint8_t		*outbuf;
-	uint32_t	outbuf_size;
+	uint32_t        *outbuf_size;
 	
 	uint32_t	pos;
 	uint32_t	Remainder;
@@ -259,8 +259,10 @@ TEE_Result TA_InvokeCommandEntryPoint(void *sessionContext, uint32_t commandID,
 	inbuf		= (uint8_t*)params[2].memref.buffer;
 	inbuf_size	= (uint32_t)params[2].memref.size;
 	outbuf		= (uint8_t*)params[3].memref.buffer;
-	outbuf_size	= (uint32_t)params[3].memref.size;
-	
+	outbuf_size = TEE_Malloc(sizeof(*outbuf_size), 0);
+	if (!outbuf_size)
+		return TEE_ERROR_OUT_OF_MEMORY;
+	*outbuf_size = params[3].memref.size;
 	/* Reads the secret key */
 	res = ReadSecretKey();
 	
@@ -340,7 +342,7 @@ TEE_Result TA_InvokeCommandEntryPoint(void *sessionContext, uint32_t commandID,
 		
 		/* Last block */
 		if (res == (TEE_Result)TEE_SUCCESS) {
-			res = TEE_CipherDoFinal(op, &inbuf[pos], Remainder, &outbuf[pos], &outbuf_size);
+			res = TEE_CipherDoFinal(op, &inbuf[pos], Remainder, &outbuf[pos], outbuf_size);
 			if (res != (TEE_Result)TEE_SUCCESS) {
 				EMSG("Error TEE_CipherDoFinal\n");
 			}
@@ -351,6 +353,7 @@ TEE_Result TA_InvokeCommandEntryPoint(void *sessionContext, uint32_t commandID,
 	if (op != TEE_HANDLE_NULL) {
 		TEE_FreeOperation(op);
 	}
+	TEE_Free(outbuf_size);
 	OUTMSG("res=0x%08x\n", res);
 	return res;
 }

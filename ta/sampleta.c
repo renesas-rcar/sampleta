@@ -301,11 +301,11 @@ TEE_Result TA_InvokeCommandEntryPoint(void *sessionContext, uint32_t commandID,
 	/* To encrypt or decrypt the input data with the secret key */
 	if (res == (TEE_Result)TEE_SUCCESS) {
 		TEE_GetObjectInfo1(secretKey, &info);
-		IMSG("maxKeySize=%d\n", info.maxKeySize);
+		IMSG("maxKeySize=%d\n", info.maxObjectSize);
 		
-		res = TEE_AllocateOperation(&op, Algo, Mode, info.maxKeySize);
+		res = TEE_AllocateOperation(&op, Algo, Mode, info.maxObjectSize);
 		if (res != (TEE_Result)TEE_SUCCESS) {
-			EMSG("Error TEE_AllocateOperation maxKeySize=%d\n", info.maxKeySize);
+			EMSG("Error TEE_AllocateOperation maxKeySize=%d\n", info.maxObjectSize);
 		}
 	}
 	if (res == (TEE_Result)TEE_SUCCESS) {

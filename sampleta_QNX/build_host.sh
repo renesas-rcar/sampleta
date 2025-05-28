@@ -1,15 +1,9 @@
 #!/bin/bash
 unset LD_LIBRARY_PATH
 
-if [ -z "$1" ] || [ -z "$2" ]; then
-	echo "Error: You need to enter 2 parameters when running the script."
-	echo "Usage: ./build.sh <OPTEE_CLIENT> <QNX_SDP_DIR>"
-	exit 1
-fi
-
 export WORKDIR=$(pwd)
-export OPTEE_CLIENT=$1
-export QNX_SDP_DIR=$2
+export OPTEE_CLIENT=/data/nhinguyen/_optee/gen4/_for_V4H/v430/optee_client #user need to adjust to the correct path 
+export QNX_SDP_DIR=/shsv/SS2/RSS1/qnx/toolchain/qnx710_base                #user need to adjust to the correct path
 
 ### Environment parameters of Client App
 source ${QNX_SDP_DIR}/qnxsdp-env.sh
